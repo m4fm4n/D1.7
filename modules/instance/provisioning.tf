@@ -8,7 +8,7 @@ resource "null_resource" "docker-swarm-manager" {
   }
 
   provisioner "file" {
-    source      = "~/module_d/D1/D1.7/docker-stack.yml"
+    source      = "../../docker-stack.yml"
     destination = "/home/${var.ssh_credentials.user}/docker-stack.yml"
   }
 
@@ -51,7 +51,7 @@ resource "null_resource" "docker-swarm-worker" {
   }
 
   provisioner "file" {
-    source      = "~/module_d/D1/D1.7/join.sh"
+    source      = "../../join.sh"
     destination = "/home/${var.ssh_credentials.user}/join.sh"
   }
 
@@ -83,7 +83,7 @@ resource "null_resource" "docker-swarm-manager-start" {
   }
 
   provisioner "local-exec" {
-    command = "rm ~/module_d/D1/D1.7/join.sh"
+    command = "../../join.sh"
   }
 }
 
