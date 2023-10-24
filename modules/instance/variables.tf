@@ -30,7 +30,7 @@ variable "ssh_credentials" {
   })
   default     = {
     user        = "ubuntu"
-    private_key = "/home/anton/.ssh/id_rsa"
-    pub_key     = "/home/anton/.ssh/id_rsa.pub"
+    private_key = "/home/$LOGNAME/.ssh/id_rsa"
+    pub_key     = "/home/$LOGNAME/.ssh/id_rsa.pub"
   }
 }
