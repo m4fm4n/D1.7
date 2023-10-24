@@ -36,7 +36,7 @@ resource "null_resource" "docker-swarm-manager-join" {
 
 
   provisioner "local-exec" {
-    command = "TOKEN=$(ssh -i ${var.ssh_credentials.private_key} -o StrictHostKeyChecking=no ${var.ssh_credentials.user}@${yandex_compute_instance.vm-manager[count.index].network_interface.0.nat_ip_address} docker swarm join-token -q worker); echo '#!/usr/bin/bash\nsudo docker swarm join --token '$TOKEN' ${yandex_compute_instance.vm-manager[count.index].network_interface.0.nat_ip_address}:2377\nexit 0' > join.sh"
+    command = "TOKEN=$(ssh -i ${var.ssh_credentials.private_key} -o StrictHostKeyChecking=no ${var.ssh_credentials.user}@${yandex_compute_instance.vm-manager[count.index].network_interface.0.nat_ip_address} docker swarm join-token -q worker); echo '#!/usr/bin/bash\nsudo docker swarm join --token '$TOKEN' ${yandex_compute_instance.vm-manager[count.index].network_interface.0.nat_ip_address}:2377\nexit 0' > /home/$USER/join.sh"
 
   }
 }
@@ -51,7 +51,7 @@ resource "null_resource" "docker-swarm-worker" {
   }
 
   provisioner "file" {
-    source      = "../../join.sh"
+    source      = "/home/$USER/join.sh"
     destination = "/home/${var.ssh_credentials.user}/join.sh"
   }
 
@@ -83,7 +83,7 @@ resource "null_resource" "docker-swarm-manager-start" {
   }
 
   provisioner "local-exec" {
-    command = "../../join.sh"
+    command = "/home/$USER/join.sh"
   }
 }
 
